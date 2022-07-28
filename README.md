@@ -1,1 +1,1 @@
-This repository contains the exercises and projects from [patika.dev](www.patika.dev)
+This repository contains my studies from [patika.dev](www.patika.dev)
