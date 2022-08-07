@@ -21,7 +21,6 @@ public class LogIn {
                         if (newPassword.equals(password)){
                             System.out.println("Yeni şifreniz eski şifrenizle aynı olamaz");
                         }else{
-                            password = newPassword;
                             System.out.println("Şifre yenilendi.");
                         }
                 }
