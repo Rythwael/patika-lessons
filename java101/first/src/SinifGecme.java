@@ -37,6 +37,5 @@ public class SinifGecme {
         total = mat+fiz+tr+kim+muz;
         avg = total/totalNote;
         System.out.println("Ortalamanız : " + avg);
-
     }
 }
