@@ -7,7 +7,7 @@ public class OnIkiyeBolunenler {
         Scanner input = new Scanner(System.in);
         System.out.println("Sayıyı giriniz");
         number = input.nextInt();
-        for (int i=1;i<=number;i++){
+        for (int i=0;i<=number;i++){
             if (i%12==0){
                 count++;
                 total += i;
