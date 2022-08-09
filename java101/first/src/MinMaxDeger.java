@@ -27,6 +27,5 @@ public class MinMaxDeger {
         min=tempMin;
         max=tempMax;
         System.out.println("Max : " + max + "\nMin : " + min);
-
     }
 }
