@@ -9,7 +9,7 @@ public class FibonacciRecursive {
         return fibonacci(a-1)+fibonacci(a-2);
     }
     public static void main(String[] args) {
-        int num,first=1,count=0;
+        int num;
         Scanner input = new Scanner(System.in);
         System.out.println("Elemena sayısını giriniz");
         num=input.nextInt();
