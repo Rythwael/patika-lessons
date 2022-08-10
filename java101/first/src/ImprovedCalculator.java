@@ -38,7 +38,7 @@ public class ImprovedCalculator {
         int select,n1,n2;
         Scanner input= new Scanner(System.in);
         System.out.println("Yapmak istediğiniz işlemi seçiniz\n1-Toplama\n2-Çıkarma" +
-                "\n3-Çarpma\n4-Bölme\n5-Mod Alma\n6-Üs hesaplama\n7-Dikdörtgen Alan ve Çevresi");
+                "\n3-Çarpma\n4-Bölme\n5-Mod Alma\n6-Üs hesaplama\n7-Dikdörtgen Alan ve Çevresi\n8-Faktoriyel");
         select = input.nextInt();
         switch (select){
             case 1:
@@ -89,6 +89,11 @@ public class ImprovedCalculator {
                 System.out.print("İkinci Sayı : ");
                 n2=input.nextInt();
                 rec(n1,n2);
+                break;
+            case 8:
+                System.out.print("Sayıyı girin : ");
+                n1=input.nextInt();
+                System.out.println(fac(n1));
                 break;
             default:
                 System.out.println("Yanlış tuşlama yaptınız");
