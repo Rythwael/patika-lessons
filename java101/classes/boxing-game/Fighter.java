@@ -25,7 +25,7 @@ public class Fighter {
 
     }
     public boolean isDodge(double evasion){
-        if (evasion>=100){
+        if (evasion>99.9){
             evasion=99.9;
         }
         double randomValue = Math.random()*100;
