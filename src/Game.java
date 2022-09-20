@@ -54,5 +54,6 @@ public class Game{
         }
         System.out.println("Your class : " + player.getCharName());
         System.out.println("Stats :" + "\nHealth = " + player.getHealth() + "\nDamage = " + player.getDamage() + "\nMoney = " + player.getMoney());
+
     }
 }
