@@ -49,15 +49,13 @@ public class Player{
                 System.out.println("You entered wrong number!");
             }
         }
-        System.out.println("Your class : " + this.charName);
-        System.out.println("Stats :" + "\tHealth=" + this.health + "\tDamage=" + this.damage + "\tMoney=" + this.money);
 
     }
     void selectLocation(){
         Location location = null;
         while (true){
             printInfo();
-            System.out.println("Area :\n1 - Safe House\n2 - Tool House\nPlease choose the area you want to go");
+            System.out.println("Area :\n1 - Safe House\n2 - Tool House\n3 - Leave Game\nPlease choose the area you want to go");
             int selectLoc = s.nextInt();
             switch (selectLoc){
                 case 1:
@@ -66,8 +64,15 @@ public class Player{
                 case 2:
                     location = new ToolHouse(this);
                     break;
+                case 3:
+                    location = null;
+                    break;
                 default:
-                    System.out.println("Wrong input!");
+                    location = new SafeHouse(this);
+            }
+            if (location == null){
+                System.out.println("See you again!");
+                break;
             }
             if(!location.onLocation()) {
                 System.out.println("Game Over!");
@@ -77,8 +82,14 @@ public class Player{
     }
 
     void printInfo(){
-        System.out.println("Your class : " + this.getCharName());
-        System.out.println("Stats :" + "\tHealth=" + this.getHealth() + "\tDamage=" + this.getDamage() + "\tMoney=" + this.getMoney());
+        System.out.println(
+                "Class : " + this.getCharName() +
+                "\nWeapon : " + this.getInventory().getWeapon().getName() +
+                "\nArmor : " + this.getInventory().getArmor().getName() +
+                "\nBlock : " + this.getInventory().getArmor().getBlock() +
+                "\nHealth : " + this.getHealth() +
+                "\nDamage : " + this.getDamage() +
+                "\nMoney : " + this.getMoney());
     }
     public Inventory getInventory() {
         return inventory;
