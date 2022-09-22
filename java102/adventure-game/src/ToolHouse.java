@@ -1,4 +1,4 @@
-public class ToolHouse extends NormalLocation{
+public class ToolHouse extends NormalLocation {
     public ToolHouse(Player player){
         super(player,"Shop");
     }

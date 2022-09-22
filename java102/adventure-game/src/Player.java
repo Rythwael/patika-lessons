@@ -55,7 +55,7 @@ public class Player{
         Location location = null;
         while (true){
             printInfo();
-            System.out.println("Area :\n1 - Safe House\n2 - Tool House\n3 - Leave Game\nPlease choose the area you want to go");
+            System.out.println("MAP :\nSafe Areas\n1-Safe House\t2 - Tool House\nDangerous Areas\n3-Cave\t4-Forest\t5-River\n6-Leave Game\nPlease choose the area you want to go");
             int selectLoc = s.nextInt();
             switch (selectLoc){
                 case 1:
@@ -65,10 +65,19 @@ public class Player{
                     location = new ToolHouse(this);
                     break;
                 case 3:
+                    location = new Cave(this);
+                    break;
+                case 4:
+                    location = new Forest(this);
+                    break;
+                case 5:
+                    location = new River(this);
+                    break;
+                case 6:
                     location = null;
                     break;
                 default:
-                    location = new SafeHouse(this);
+                    System.out.println("Wrong input!");
             }
             if (location == null){
                 System.out.println("See you again!");
