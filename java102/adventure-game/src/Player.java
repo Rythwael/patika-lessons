@@ -10,54 +10,18 @@ public class Player{
     private int health;
     private int damage;
     private int money;
-
     private String playerName;
+    private Inventory inventory;
+    Scanner s = new Scanner(System.in);
+
 
     public Player(String playerName) {
         this.playerName = playerName;
+        this.inventory = new Inventory();
     }
 
-    Scanner s = new Scanner(System.in);
 
-    public String getPlayerName() {
-        return playerName;
-    }
 
-    public void setPlayerName(String playerName) {
-        this.playerName = playerName;
-    }
-
-    public String getCharName() {
-        return charName;
-    }
-
-    public void setCharName(String charName) {
-        this.charName = charName;
-    }
-
-    public int getHealth() {
-        return health;
-    }
-
-    public void setHealth(int health) {
-        this.health = health;
-    }
-
-    public int getDamage() {
-        return damage;
-    }
-
-    public void setDamage(int damage) {
-        this.damage = damage;
-    }
-
-    public int getMoney() {
-        return money;
-    }
-
-    public void setMoney(int money) {
-        this.money = money;
-    }
 
     void createCharacter() {
         Characters[] characters = {new Samurai(), new Archer(),new Knight()};
@@ -85,16 +49,16 @@ public class Player{
                 System.out.println("You entered wrong number!");
             }
         }
-        System.out.println("Your class : " + charName);
-        System.out.println("Stats :" + "\tHealth=" + health + "\tDamage=" + damage + "\tMoney=" + money);
+        System.out.println("Your class : " + this.charName);
+        System.out.println("Stats :" + "\tHealth=" + this.health + "\tDamage=" + this.damage + "\tMoney=" + this.money);
 
     }
     void selectLocation(){
         Location location = null;
-        boolean selLoc = true;
-        System.out.println("Area :\n1 - Safe House\n2 - Tool House\nPlease choose the area you want to go");
-        int selectLoc = s.nextInt();
-        while (selLoc){
+        while (true){
+            printInfo();
+            System.out.println("Area :\n1 - Safe House\n2 - Tool House\nPlease choose the area you want to go");
+            int selectLoc = s.nextInt();
             switch (selectLoc){
                 case 1:
                     location = new SafeHouse(this);
@@ -110,6 +74,58 @@ public class Player{
                 break;
             }
         }
+    }
+
+    void printInfo(){
+        System.out.println("Your class : " + this.getCharName());
+        System.out.println("Stats :" + "\tHealth=" + this.getHealth() + "\tDamage=" + this.getDamage() + "\tMoney=" + this.getMoney());
+    }
+    public Inventory getInventory() {
+        return inventory;
+    }
+
+    public void setInventory(Inventory inventory) {
+        this.inventory = inventory;
+    }
+
+    public String getPlayerName() {
+        return playerName;
+    }
+
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
+    }
+
+    public String getCharName() {
+        return charName;
+    }
+
+    public void setCharName(String charName) {
+        this.charName = charName;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public int getDamage() {
+        return damage + this.getInventory().getWeapon().getDamage();
+    }
+
+    public void setDamage(int damage) {
+        this.damage = damage;
+    }
+
+    public int getMoney() {
+        return money;
+    }
+
+    public void setMoney(int money) {
+        this.money = money;
     }
 
 }

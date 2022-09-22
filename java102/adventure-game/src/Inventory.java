@@ -1,19 +1,15 @@
 public class Inventory {
-    boolean water;
-    boolean food;
-    boolean firewood;
-    String weaponName;
-    String armorName;
-    int weaponDamage;
-    int armorValue;
+    private Weapon weapon;
 
-    public Inventory(boolean water, boolean food, boolean firewood, String weaponName, String armorName, int weaponDamage, int armorValue) {
-        this.water = water;
-        this.food = food;
-        this.firewood = firewood;
-        this.weaponName = weaponName;
-        this.armorName = armorName;
-        this.weaponDamage = weaponDamage;
-        this.armorValue = armorValue;
+    public Inventory(){
+        this.weapon = new Weapon("Punch",0,0,0);
+    }
+
+    public Weapon getWeapon() {
+        return weapon;
+    }
+
+    public void setWeapon(Weapon weapon) {
+        this.weapon = weapon;
     }
 }
