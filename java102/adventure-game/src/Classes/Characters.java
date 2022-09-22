@@ -1,3 +1,5 @@
+package Classes;
+
 public class Characters {
     private String charName;
     private int health;
@@ -43,4 +45,6 @@ public class Characters {
     public void setMoney(int money) {
         this.money = money;
     }
+
+
 }
