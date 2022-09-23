@@ -91,14 +91,17 @@ public class Player{
     }
 
     void printInfo(){
+        System.out.println("---------");
         System.out.println(
                 "Class : " + this.getCharName() +
                 "\nWeapon : " + this.getInventory().getWeapon().getName() +
                 "\nArmor : " + this.getInventory().getArmor().getName() +
                 "\nBlock : " + this.getInventory().getArmor().getBlock() +
                 "\nHealth : " + this.getHealth() +
-                "\nDamage : " + this.getDamage() +
+                "\nDamage : " + this.getTotalDamage() +
                 "\nMoney : " + this.getMoney());
+        System.out.println("---------");
+
     }
     public Inventory getInventory() {
         return inventory;
@@ -133,6 +136,10 @@ public class Player{
     }
 
     public int getDamage() {
+        return damage;
+    }
+
+    public int getTotalDamage(){
         return damage + this.getInventory().getWeapon().getDamage();
     }
 

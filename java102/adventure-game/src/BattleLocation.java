@@ -1,11 +1,18 @@
+import Monsters.Bear;
 import Monsters.Monster;
+import Monsters.Vampire;
+import Monsters.Zombie;
+
+import java.util.Arrays;
 
 public class BattleLocation extends Location {
+    private int id;
     private Monster monster;
     private String loot;
     private int spawnedAmount;
-    public BattleLocation(Player player, String name,Monster monster,String loot,int spawnedAmount){
+    public BattleLocation(Player player, int id, String name,Monster monster,String loot,int spawnedAmount){
         super(player,name);
+        this.id=id;
         this.monster = monster;
         this.loot = loot;
         this.spawnedAmount = spawnedAmount;
@@ -15,12 +22,131 @@ public class BattleLocation extends Location {
     public boolean onLocation() {
         System.out.println("You're here : " + this.getLocationName());
         System.out.println("Be Careful! " + this.getSpawnedAmount() + " " + this.getMonster().getName() + "s are living here!");
-        System.out.println("-----Actions-----\nA-Attack\tR-Run");
+        System.out.println("-----Actions-----\nF-Fight\tR-Run");
         String actionKey = s.next().toUpperCase();
-        if (actionKey.equals("A")){
-            System.out.println("Battle Start!");
+        if (actionKey.equals("F") && combat(this.getSpawnedAmount())){
+            System.out.println("You have cleared " + this.getLocationName());
+            return true;
+        }
+        if (this.getPlayer().getHealth()<=0){
+            System.out.println("You are dead.");
+            return false;
         }
         return true;
+    }
+
+    public  boolean combat(int monsterAmount){
+        //Create Enemies
+        int aliveCount = monsterAmount;
+        Monster[] monsters = new Monster[monsterAmount];
+        for (int i=0;i<monsterAmount;i++){
+            if (this.getId()==1) {
+                monsters[i]= new Zombie();
+            } else if (this.getId()==2) {
+                monsters[i]= new Vampire();
+            }else {
+                monsters[i]= new Bear();
+            }
+        }
+        //Fighting Loop
+        boolean isOver = false;
+        while (!isOver){
+            //Show Current Status
+            playerStats();
+            enemyStats(monsters);
+            //Choose Target
+            System.out.println("Choose your target :");
+            int selectTarget = s.nextInt();
+
+            while (selectTarget<1 || selectTarget>monsterAmount){
+                System.out.println("You choose wrong target.");
+                selectTarget = s.nextInt();
+            }
+            if (monsters[selectTarget-1].getHealth()==0){
+                System.out.println("Target is dead.");
+            }else if (this.getPlayer().getHealth()>0){
+                    playerStats();
+                    enemyStats(monsters);
+                    //Select Action
+                    System.out.println("-----Actions-----\nA-Attack\tR-Run");
+                    String combatSelect = s.next().toUpperCase();
+                    //Fight
+                    if (combatSelect.equals("A")){
+                        //Player Hit
+                        System.out.println("You deal " + this.getPlayer().getTotalDamage() + " damage.");
+                        monsters[selectTarget-1].setHealth(monsters[selectTarget-1].getHealth()-this.getPlayer().getTotalDamage());
+                        if (monsters[selectTarget-1].getHealth()<=0){
+                            monsters[selectTarget-1].setHealth(0);
+                            aliveCount--;
+                        }
+                        afterHit(monsters[selectTarget-1]);
+                        //Enemy Hit
+                        if (aliveCount>0){
+                            int finalMonsterDamage = aliveCount*(monsters[selectTarget-1].getDamage() - this.getPlayer().getInventory().getArmor().getBlock());
+                            if (finalMonsterDamage<0){
+                                finalMonsterDamage = 0;
+                            }
+                            System.out.println(monsters[selectTarget-1].getName() + " deal " + finalMonsterDamage + " damage.");
+                            this.getPlayer().setHealth(this.getPlayer().getHealth()-finalMonsterDamage);
+                            if (this.getPlayer().getHealth()<=0){
+                                return false;
+                            }
+                            afterHit(monsters[selectTarget-1]);
+                        }else {
+                            System.out.println("You killed " + monsters[selectTarget-1].getName());
+                            System.out.println();
+                        }
+                        if (aliveCount==0){
+                            System.out.println("You killed all monsters");
+                            int rewardAmount = monsterAmount*this.getMonster().getReward();
+                            System.out.println("You gain " + rewardAmount + " gold.");
+                            this.getPlayer().setMoney(this.getPlayer().getMoney()+rewardAmount);
+                            isOver = true;
+                        }
+                    } else if (combatSelect.equals("R")) {
+                        System.out.println("You ran away.");
+                        return false;
+                    } else {
+                        System.out.println("Wrong input");
+                    }
+                }
+            }
+        return true;
+
+    }
+
+
+
+    public void afterHit(Monster enemy){
+        System.out.println("Your HP:" + this.getPlayer().getHealth());
+        System.out.println("Enemy HP:" + enemy.getHealth());
+        System.out.println();
+    }
+
+    public void playerStats(){
+        System.out.println("--Player Status--");
+        System.out.println("HP:"+this.getPlayer().getHealth()
+        + " DMG:"+this.getPlayer().getDamage() + " Money:"+this.getPlayer().getMoney());
+    }
+
+    public void enemyStats(Monster[] monsters){
+        System.out.println("--Enemy Status--");
+        for (int i=0;i<monsters.length;i++){
+            System.out.println(
+                    (i+1) +  " - " + monsters[i].getName() + " " +
+                    "HP:"+ monsters[i].getHealth() +
+                    " DMG:"+monsters[i].getDamage() +
+                    " Reward:" + monsters[i].getReward()
+            );
+        }
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getSpawnedAmount() {
