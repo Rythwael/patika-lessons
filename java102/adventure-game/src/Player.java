@@ -67,13 +67,25 @@ public class Player{
                     location = new ToolHouse(this);
                     break;
                 case 3:
-                    location = new Cave(this);
+                    if (this.getInventory().isFood()){
+                        System.out.println("You already cleared Cave");
+                    }else {
+                        location = new Cave(this);
+                    }
                     break;
                 case 4:
-                    location = new Forest(this);
+                    if (this.getInventory().isFirewood()){
+                        System.out.println("You already cleared Forest");
+                    }else {
+                        location = new Forest(this);
+                    }
                     break;
                 case 5:
-                    location = new River(this);
+                    if (this.getInventory().isWater()){
+                        System.out.println("You already cleared River");
+                    }else {
+                        location = new River(this);
+                    }
                     break;
                 case 6:
                     location = null;
@@ -86,7 +98,6 @@ public class Player{
                 break;
             }
             if(!location.onLocation()) {
-                System.out.println("Game Over!");
                 break;
             }
         }

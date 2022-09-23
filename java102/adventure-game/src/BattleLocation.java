@@ -7,6 +7,7 @@ public class BattleLocation extends Location {
     private int id;
     private Monster monster;
     private String loot;
+    private boolean clear;
     private int spawnedAmount;
     public BattleLocation(Player player, int id, String name,Monster monster,String loot,int spawnedAmount){
         super(player,name);
@@ -14,6 +15,7 @@ public class BattleLocation extends Location {
         this.monster = monster;
         this.loot = loot;
         this.spawnedAmount = spawnedAmount;
+        this.clear = false;
     }
 
     @Override
@@ -24,10 +26,20 @@ public class BattleLocation extends Location {
         String actionKey = s.next().toUpperCase();
         if (actionKey.equals("F") && combat(this.getSpawnedAmount())){
             System.out.println("You have cleared " + this.getLocationName());
+            switch (this.getId()){
+                case 1:
+                    this.getPlayer().getInventory().setFood(true);
+                    break;
+                case 2:
+                    this.getPlayer().getInventory().setFirewood(true);
+                    break;
+                default:
+                    this.getPlayer().getInventory().setWater(true);
+            }
             return true;
         }
         if (this.getPlayer().getCurrentHealth()<=0){
-            System.out.println("You are dead.");
+            System.out.println("You are dead.\nGAME OVER!");
             return false;
         }
         return true;
@@ -137,6 +149,14 @@ public class BattleLocation extends Location {
                     " Reward:" + monsters[i].getReward()
             );
         }
+    }
+
+    public boolean isClear() {
+        return clear;
+    }
+
+    public void setClear(boolean clear) {
+        this.clear = clear;
     }
 
     public int getId() {
