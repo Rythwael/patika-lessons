@@ -7,7 +7,8 @@ import java.util.Scanner;
 
 public class Player{
     private String charName;
-    private int health;
+    private int currentHealth;
+    private int maxHealth;
     private int damage;
     private int money;
     private String playerName;
@@ -41,7 +42,8 @@ public class Player{
             int id = s.nextInt();
             if (id>0 && id<4){
                 this.setCharName(characters[id-1].getCharName());
-                this.setHealth(characters[id-1].getHealth());
+                this.setMaxHealth(characters[id-1].getHealth());
+                this.setCurrentHealth(characters[id-1].getHealth());
                 this.setDamage(characters[id-1].getDamage());
                 this.setMoney(characters[id-1].getMoney());
                 charCreation = false;
@@ -97,12 +99,21 @@ public class Player{
                 "\nWeapon : " + this.getInventory().getWeapon().getName() +
                 "\nArmor : " + this.getInventory().getArmor().getName() +
                 "\nBlock : " + this.getInventory().getArmor().getBlock() +
-                "\nHealth : " + this.getHealth() +
+                "\nHealth : " + this.getCurrentHealth() + "/" + this.getMaxHealth() +
                 "\nDamage : " + this.getTotalDamage() +
                 "\nMoney : " + this.getMoney());
         System.out.println("---------");
 
     }
+
+    public int getMaxHealth() {
+        return maxHealth;
+    }
+
+    public void setMaxHealth(int maxHealth) {
+        this.maxHealth = maxHealth;
+    }
+
     public Inventory getInventory() {
         return inventory;
     }
@@ -127,12 +138,12 @@ public class Player{
         this.charName = charName;
     }
 
-    public int getHealth() {
-        return health;
+    public int getCurrentHealth() {
+        return currentHealth;
     }
 
-    public void setHealth(int health) {
-        this.health = health;
+    public void setCurrentHealth(int currentHealth) {
+        this.currentHealth = currentHealth;
     }
 
     public int getDamage() {

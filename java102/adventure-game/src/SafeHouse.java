@@ -6,6 +6,7 @@ public class SafeHouse extends NormalLocation {
     @Override
     public boolean onLocation(){
         System.out.println("You're in Safe House.\tYour HP is full.");
+        this.getPlayer().setCurrentHealth(this.getPlayer().getMaxHealth());
         return true;
     }
 

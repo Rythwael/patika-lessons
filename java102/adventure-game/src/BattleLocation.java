@@ -3,8 +3,6 @@ import Monsters.Monster;
 import Monsters.Vampire;
 import Monsters.Zombie;
 
-import java.util.Arrays;
-
 public class BattleLocation extends Location {
     private int id;
     private Monster monster;
@@ -28,7 +26,7 @@ public class BattleLocation extends Location {
             System.out.println("You have cleared " + this.getLocationName());
             return true;
         }
-        if (this.getPlayer().getHealth()<=0){
+        if (this.getPlayer().getCurrentHealth()<=0){
             System.out.println("You are dead.");
             return false;
         }
@@ -62,9 +60,9 @@ public class BattleLocation extends Location {
                 System.out.println("You choose wrong target.");
                 selectTarget = s.nextInt();
             }
-            if (monsters[selectTarget-1].getHealth()==0){
+            if (monsters[selectTarget-1].getCurrentHealth()==0){
                 System.out.println("Target is dead.");
-            }else if (this.getPlayer().getHealth()>0){
+            }else if (this.getPlayer().getCurrentHealth()>0){
                     playerStats();
                     enemyStats(monsters);
                     //Select Action
@@ -74,9 +72,9 @@ public class BattleLocation extends Location {
                     if (combatSelect.equals("A")){
                         //Player Hit
                         System.out.println("You deal " + this.getPlayer().getTotalDamage() + " damage.");
-                        monsters[selectTarget-1].setHealth(monsters[selectTarget-1].getHealth()-this.getPlayer().getTotalDamage());
-                        if (monsters[selectTarget-1].getHealth()<=0){
-                            monsters[selectTarget-1].setHealth(0);
+                        monsters[selectTarget-1].setCurrentHealth(monsters[selectTarget-1].getCurrentHealth()-this.getPlayer().getTotalDamage());
+                        if (monsters[selectTarget-1].getCurrentHealth()<=0){
+                            monsters[selectTarget-1].setCurrentHealth(0);
                             aliveCount--;
                         }
                         afterHit(monsters[selectTarget-1]);
@@ -87,8 +85,8 @@ public class BattleLocation extends Location {
                                 finalMonsterDamage = 0;
                             }
                             System.out.println(monsters[selectTarget-1].getName() + " deal " + finalMonsterDamage + " damage.");
-                            this.getPlayer().setHealth(this.getPlayer().getHealth()-finalMonsterDamage);
-                            if (this.getPlayer().getHealth()<=0){
+                            this.getPlayer().setCurrentHealth(this.getPlayer().getCurrentHealth()-finalMonsterDamage);
+                            if (this.getPlayer().getCurrentHealth()<=0){
                                 return false;
                             }
                             afterHit(monsters[selectTarget-1]);
@@ -118,14 +116,14 @@ public class BattleLocation extends Location {
 
 
     public void afterHit(Monster enemy){
-        System.out.println("Your HP:" + this.getPlayer().getHealth());
-        System.out.println("Enemy HP:" + enemy.getHealth());
+        System.out.println("Your HP:" + this.getPlayer().getCurrentHealth() + "/" + this.getPlayer().getMaxHealth());
+        System.out.println("Enemy HP:" + enemy.getCurrentHealth());
         System.out.println();
     }
 
     public void playerStats(){
         System.out.println("--Player Status--");
-        System.out.println("HP:"+this.getPlayer().getHealth()
+        System.out.println("HP:"+this.getPlayer().getCurrentHealth() + "/" + this.getPlayer().getMaxHealth()
         + " DMG:"+this.getPlayer().getDamage() + " Money:"+this.getPlayer().getMoney());
     }
 
@@ -134,7 +132,7 @@ public class BattleLocation extends Location {
         for (int i=0;i<monsters.length;i++){
             System.out.println(
                     (i+1) +  " - " + monsters[i].getName() + " " +
-                    "HP:"+ monsters[i].getHealth() +
+                    "HP:"+ monsters[i].getCurrentHealth() + "/" + monsters[i].getMaxHealth() +
                     " DMG:"+monsters[i].getDamage() +
                     " Reward:" + monsters[i].getReward()
             );
