@@ -60,65 +60,73 @@ public class BattleLocation extends Location {
         }
         //Fighting Loop
         boolean isOver = false;
+        int turn = (int)(Math.random()*2);
         while (!isOver){
-            //Show Current Status
-            playerStats();
-            enemyStats(monsters);
-            //Choose Target
-            System.out.println("Choose your target :");
-            int selectTarget = s.nextInt();
+            if (turn==0) {
+                playerStats();
+                enemyStats(monsters);
+                System.out.println("Player's Turn");
+                //Choose Target
+                System.out.println("Choose your target :");
+                int selectTarget = s.nextInt();
 
-            while (selectTarget<1 || selectTarget>monsterAmount){
-                System.out.println("You choose wrong target.");
-                selectTarget = s.nextInt();
-            }
-            if (monsters[selectTarget-1].getCurrentHealth()==0){
-                System.out.println("Target is dead.");
-            }else if (this.getPlayer().getCurrentHealth()>0){
+                while (selectTarget < 1 || selectTarget > monsterAmount) {
+                    System.out.println("You choose wrong target.");
+                    selectTarget = s.nextInt();
+                }
+                if (monsters[selectTarget - 1].getCurrentHealth() == 0) {
+                    System.out.println("Target is dead.");
+                } else if (this.getPlayer().getCurrentHealth() > 0) {
                     playerStats();
                     enemyStats(monsters);
                     //Select Action
                     System.out.println("-----Actions-----\nA-Attack\tR-Run");
                     String combatSelect = s.next().toUpperCase();
                     //Fight
-                    if (combatSelect.equals("A")){
+                    if (combatSelect.equals("A")) {
                         //Player Hit
                         System.out.println("You deal " + this.getPlayer().getTotalDamage() + " damage.");
-                        monsters[selectTarget-1].setCurrentHealth(monsters[selectTarget-1].getCurrentHealth()-this.getPlayer().getTotalDamage());
-                        if (monsters[selectTarget-1].getCurrentHealth()<=0){
-                            monsters[selectTarget-1].setCurrentHealth(0);
+                        monsters[selectTarget - 1].setCurrentHealth(monsters[selectTarget - 1].getCurrentHealth() - this.getPlayer().getTotalDamage());
+                        if (monsters[selectTarget - 1].getCurrentHealth() <= 0) {
+                            monsters[selectTarget - 1].setCurrentHealth(0);
+                            System.out.println("You killed " + monsters[selectTarget - 1].getName());
                             aliveCount--;
                         }
-                        afterHit(monsters[selectTarget-1]);
-                        //Enemy Hit
-                        if (aliveCount>0){
-                            int finalMonsterDamage = aliveCount*(monsters[selectTarget-1].getDamage() - this.getPlayer().getInventory().getArmor().getBlock());
-                            if (finalMonsterDamage<0){
-                                finalMonsterDamage = 0;
-                            }
-                            System.out.println(monsters[selectTarget-1].getName() + " deal " + finalMonsterDamage + " damage.");
-                            this.getPlayer().setCurrentHealth(this.getPlayer().getCurrentHealth()-finalMonsterDamage);
-                            if (this.getPlayer().getCurrentHealth()<=0){
-                                return false;
-                            }
-                            afterHit(monsters[selectTarget-1]);
-                        }else {
-                            System.out.println("You killed " + monsters[selectTarget-1].getName());
-                            System.out.println();
-                        }
-                        if (aliveCount==0){
-                            System.out.println("You killed all monsters");
-                            int rewardAmount = monsterAmount*this.getMonster().getReward();
-                            System.out.println("You gain " + rewardAmount + " gold.");
-                            this.getPlayer().setMoney(this.getPlayer().getMoney()+rewardAmount);
-                            isOver = true;
-                        }
+
                     } else if (combatSelect.equals("R")) {
                         System.out.println("You ran away.");
                         return false;
                     } else {
                         System.out.println("Wrong input");
                     }
+
+                }
+                turn=1;
+            }
+            if (turn==1) {
+                playerStats();
+                enemyStats(monsters);
+                System.out.println("Enemy's Turn");
+                if (aliveCount>0){
+                    int finalMonsterDamage = aliveCount*(this.getMonster().getDamage() - this.getPlayer().getInventory().getArmor().getBlock());
+                    if (finalMonsterDamage<0){
+                        finalMonsterDamage = 0;
+                    }
+                    System.out.println(this.getMonster().getName() + " deal " + finalMonsterDamage + " damage.");
+                    this.getPlayer().setCurrentHealth(this.getPlayer().getCurrentHealth()-finalMonsterDamage);
+                    if (this.getPlayer().getCurrentHealth()<=0){
+                        return false;
+                    }
+                }
+                turn=0;
+            }
+
+                if (aliveCount==0){
+                    System.out.println("You killed all monsters");
+                    int rewardAmount = monsterAmount*this.getMonster().getReward();
+                    System.out.println("You gain " + rewardAmount + " gold.");
+                    this.getPlayer().setMoney(this.getPlayer().getMoney()+rewardAmount);
+                    isOver = true;
                 }
             }
         return true;
@@ -126,12 +134,15 @@ public class BattleLocation extends Location {
     }
 
 
+    public void playerHit(Monster[] monsters){
 
-    public void afterHit(Monster enemy){
-        System.out.println("Your HP:" + this.getPlayer().getCurrentHealth() + "/" + this.getPlayer().getMaxHealth());
-        System.out.println("Enemy HP:" + enemy.getCurrentHealth());
-        System.out.println();
     }
+    public void enemyHit(Monster[] monsters){
+
+    }
+
+
+
 
     public void playerStats(){
         System.out.println("--Player Status--");
