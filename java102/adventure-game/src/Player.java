@@ -57,7 +57,7 @@ public class Player{
         Location location = null;
         while (true){
             printInfo();
-            System.out.println("MAP :\nSafe Areas\n1-Safe House\t2 - Tool House\nDangerous Areas\n3-Cave\t4-Forest\t5-River\n6-Leave Game\nPlease choose the area you want to go");
+            System.out.println("MAP :\nSafe Areas\n1-Safe House\t2 - Tool House\nDangerous Areas\n3-Cave\t4-Forest\t5-River\t6-Quarry\n7-Leave Game\nPlease choose the area you want to go");
             int selectLoc = s.nextInt();
             switch (selectLoc){
                 case 1:
@@ -88,7 +88,10 @@ public class Player{
                     }
                     break;
                 case 6:
-                    location = null;
+                    location = new Quarry(this);
+                    break;
+                case 7:
+                    location=null;
                     break;
                 default:
                     System.out.println("Wrong input!");

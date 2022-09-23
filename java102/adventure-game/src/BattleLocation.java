@@ -6,14 +6,12 @@ import Monsters.Zombie;
 public class BattleLocation extends Location {
     private int id;
     private Monster monster;
-    private String loot;
     private boolean clear;
     private int spawnedAmount;
-    public BattleLocation(Player player, int id, String name,Monster monster,String loot,int spawnedAmount){
+    public BattleLocation(Player player, int id, String name, Monster monster, int spawnedAmount){
         super(player,name);
         this.id=id;
         this.monster = monster;
-        this.loot = loot;
         this.spawnedAmount = spawnedAmount;
         this.clear = false;
     }
@@ -26,6 +24,7 @@ public class BattleLocation extends Location {
         String actionKey = s.next().toUpperCase();
         if (actionKey.equals("F") && combat(this.getSpawnedAmount())){
             System.out.println("You have cleared " + this.getLocationName());
+            double loot=Math.random();
             switch (this.getId()){
                 case 1:
                     this.getPlayer().getInventory().setFood(true);
@@ -33,8 +32,58 @@ public class BattleLocation extends Location {
                 case 2:
                     this.getPlayer().getInventory().setFirewood(true);
                     break;
-                default:
+                case 3:
                     this.getPlayer().getInventory().setWater(true);
+                    break;
+                default:
+                    if (loot<0.45){
+                        System.out.println("You dropped nothing");;
+                    }else if (loot<60){
+                        int weaponLootID=0;
+                        loot = Math.random();
+                        if (loot<50){
+                            System.out.println("You dropped Pistol");
+                            weaponLootID=1;
+                        }else if (loot<80){
+                            System.out.println("You dropped Sword");
+                            weaponLootID=2;
+                        }else {
+                            System.out.println("You dropped Rifle");
+                            weaponLootID=3;
+                        }
+                        if (this.getPlayer().getInventory().getWeapon().getDamage()<Weapon.getWeaponByID(weaponLootID).getDamage()){
+                            this.getPlayer().getInventory().setWeapon(Weapon.getWeaponByID(weaponLootID));
+                        }
+                    }else if (loot<75){
+                        //armor
+                        int armorLootID=0;
+                        loot = Math.random();
+                        if (loot<50){
+                            System.out.println("You dropped Light Armor");
+                            armorLootID=1;
+                        }else if (loot<80){
+                            System.out.println("You dropped Medium Armor");
+                            armorLootID=2;
+                        }else {
+                            System.out.println("You dropped Heavy Armor");
+                            armorLootID=3;
+                        }
+                        if (this.getPlayer().getInventory().getArmor().getBlock()<Armor.getArmorByID(armorLootID).getBlock()){
+                            this.getPlayer().getInventory().setWeapon(Weapon.getWeaponByID(armorLootID));
+                    }else {
+                            loot = Math.random();
+                            if (loot<50){
+                                System.out.println("You dropped 1 Gold.");
+                                this.getPlayer().setMoney(this.getPlayer().getMoney()+1);
+                            }else if (loot<80){
+                                System.out.println("You dropped 5 Gold.");
+                                this.getPlayer().setMoney(this.getPlayer().getMoney()+5);
+                            }else {
+                                System.out.println("You dropped 10 Gold.");
+                                this.getPlayer().setMoney(this.getPlayer().getMoney()+10);
+                            }
+                        }
+                    }
             }
             return true;
         }
@@ -133,17 +182,6 @@ public class BattleLocation extends Location {
 
     }
 
-
-    public void playerHit(Monster[] monsters){
-
-    }
-    public void enemyHit(Monster[] monsters){
-
-    }
-
-
-
-
     public void playerStats(){
         System.out.println("--Player Status--");
         System.out.println("HP:"+this.getPlayer().getCurrentHealth() + "/" + this.getPlayer().getMaxHealth()
@@ -194,11 +232,4 @@ public class BattleLocation extends Location {
         this.monster = monster;
     }
 
-    public String getLoot() {
-        return loot;
-    }
-
-    public void setLoot(String loot) {
-        this.loot = loot;
-    }
 }
