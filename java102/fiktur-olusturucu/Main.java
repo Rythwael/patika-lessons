@@ -13,6 +13,7 @@ public class Main {
         teams.add("Beşiktaş");
         teams.add("Başakşehir");
         teams.add("Trabzonspor");
+        teams.add("Benfica");
 
         if (teams.size()%2==1){
             teams.add("Bay");
