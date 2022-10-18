@@ -3,7 +3,6 @@ import javax.xml.namespace.QName;
 public class MobilePhone {
     private int productNumber;
     private int basePrice;
-    private double discountRate;
     private int stock;
     private String name;
     private String brand;
@@ -13,10 +12,9 @@ public class MobilePhone {
     private int RAM;
     private String color;
 
-    public MobilePhone(int productNumber, int basePrice, double discountRate, int stock, String name, String brand, int memory, double screenSize, int batteryPower, int RAM, String color) {
+    public MobilePhone(int productNumber, int basePrice, int stock, String name, String brand, int memory, double screenSize, int batteryPower, int RAM, String color) {
         this.productNumber = productNumber;
         this.basePrice = basePrice;
-        this.discountRate = discountRate;
         this.stock = stock;
         this.name = name;
         this.brand = brand;
@@ -41,14 +39,6 @@ public class MobilePhone {
 
     public void setBasePrice(int basePrice) {
         this.basePrice = basePrice;
-    }
-
-    public double getDiscountRate() {
-        return discountRate;
-    }
-
-    public void setDiscountRate(double discountRate) {
-        this.discountRate = discountRate;
     }
 
     public int getStock() {
